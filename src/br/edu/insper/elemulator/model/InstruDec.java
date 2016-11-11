@@ -16,6 +16,12 @@ public class InstruDec {
 		loadD = instruction[4] && instruction[15];
 		loadM = instruction[3] && instruction[15];
 		loadPC = false;
+		if (instruction[15]) {
+			if(instruction[2] || instruction[1] || instruction[0]) {
+				loadPC = true;
+			}
+		}
+		
 	}
 
 	public boolean isMuxIOsel() {

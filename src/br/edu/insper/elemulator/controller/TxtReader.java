@@ -10,10 +10,10 @@ import java.nio.charset.Charset;
 
 import br.edu.insper.elemulator.model.*;
 
-public class TxtToROM {
+public class TxtReader {
 	ROM rom;
 	
-	public TxtToROM (ROM rom) throws FileNotFoundException, IOException {
+	public void sendToRom (ROM rom) throws FileNotFoundException, IOException {
 		this.rom = rom;
 		int line_index = 0;
 		String line;
@@ -25,14 +25,15 @@ public class TxtToROM {
 		    BufferedReader br = new BufferedReader(isr);
 		  ) {
 		      while ((line = br.readLine()) != null) {
-		          for (int i = 0; i<line.length();i++) {
-		        	  if (line.charAt(i)=='0') tempi[i] = false;
-		        	  else if (line.charAt(i)=='1') tempi[i] = true;
+		          for (int i = line.length()-1; i>=0;i--) {
+		        	  if (line.charAt(Math.abs(i-(line.length()-1)))=='0') tempi[i] = false;
+		        	  else if (line.charAt(Math.abs(i-(line.length()-1)))=='1') tempi[i] = true;
 		          }
-		          
+		          System.out.println(line);
+		          System.out.println(line_index);
 		          rom.setSelectedInstruction(tempi, line_index);
 		          line_index++;
-		      }    
+		      }
 		}	
 	}
 }

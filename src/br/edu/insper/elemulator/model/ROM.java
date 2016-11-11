@@ -9,6 +9,7 @@ public class ROM {
 	
 	public void setSelectedInstruction(boolean[] instruction, int index) {
 		this.rom[index] = new Register();
+		
 		this.rom[index].loadRegister(instruction, true);
 	}
 	
