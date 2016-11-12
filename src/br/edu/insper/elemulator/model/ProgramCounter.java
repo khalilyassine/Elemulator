@@ -5,10 +5,18 @@ public class ProgramCounter extends Register{
 	
 	public void execute (boolean reset) {
 		if (reset) reset();
-		else count++;
+		else {
+			System.out.println("add+1 no program counter");
+			count++;
+			String temp = Integer.toBinaryString(count);
+			for (int i = temp.length()-1; i>=0;i--) {
+	    		if (temp.charAt(Math.abs(i-(temp.length()-1)))=='0') register[i] = false;
+	    		else if (temp.charAt(Math.abs(i-(temp.length()-1)))=='1') register[i] = true;
+	    		}
+		}
 	}
 	
-	public void reset () {
+	private void reset () {
 		for  (int i = 0; i<= register.length; i++) {
 			register[i] = false;
 		}

@@ -2,8 +2,8 @@ package br.edu.insper.elemulator.model;
 
 public class ALU {
 	private boolean[] out;
-	private boolean zr = false;
-	private boolean ng = false;
+	private boolean zr = true;;
+	private boolean ng = true;
 	
 	
 	public void execute( boolean[] x, boolean[] y, boolean zx, boolean nx, boolean zy, boolean ny, boolean f, boolean no) {
@@ -16,11 +16,12 @@ public class ALU {
 			this.out = and(x,y);
 		}
 		else {
-			this.out = adder(x,y);
+			out = adder(x,y);
 		}
 		
 		if (no) {
 			this.out = negate(this.out);
+			
 		}
 		
 		compareZr(this.out);
@@ -28,30 +29,34 @@ public class ALU {
 	}
 	
 	private boolean[] clear (boolean[] a) {
-		for (int i = 0; i<=a.length; i++) {
+		System.out.println("limpador ativo");
+		for (int i = 0; i<a.length; i++) {
 			a[i] = false;
 		}
 		return a;
 	}
 	
 	private boolean[] negate (boolean[] a) {
-		for (int i = 0; i<=a.length; i++) {
+		System.out.println("negador ativo");
+		for (int i = 0; i<a.length; i++) {
 			a[i] = true;
 		}
 		return a;
 	}
 	
 	private boolean[] and (boolean[] x, boolean[] y) {
+		System.out.println("and alu ativo");
 		boolean[] result = new boolean[16];
-		for (int i = 0; i<=x.length; i++) {
+		for (int i = 0; i<x.length; i++) {
 			result[i] = x[i] && y[i];
 		}
 		return result;	
 	}
 	
 	private boolean[] adder (boolean[] x, boolean[] y) {
+		System.out.println("adder alu ativo");
 		boolean[] result = new boolean[16];
-		for (int i = 0; i<=x.length; i++) {
+		for (int i = 0; i<x.length; i++) {
 			if (x[i] && y[i]) {
 				result[i] = false;
 				result[i+1] = true;
@@ -64,23 +69,22 @@ public class ALU {
 	}
 	
 	private void compareNg (boolean[] a) {   //todo
-		for  (int i = 0; i<=a.length; i++) {
-			if (a[i] = false){
+		for  (int i = 0; i<a.length; i++) {
+			if (!a[i]){
 				this.ng = false;
 				break;
 			}
 		}
 	}
 	
-	private void compareZr (boolean[] a) {   //todo
-		for  (int i = 0; i<=a.length; i++) {
-			if (a[i] = true){
-				this.ng = true;
+	private void compareZr (boolean[] a) {
+		for  (int i = 0; i<a.length; i++) {
+			if (a[i]){
+				this.zr = true;
 				break;
 			}
 		}
 	}
-	
 	
 	public boolean[] getOut () {
 		return this.out;
@@ -93,8 +97,4 @@ public class ALU {
 	public boolean getZr() {
 		return this.zr;
 	}
-	
-	
-	
-
 }
