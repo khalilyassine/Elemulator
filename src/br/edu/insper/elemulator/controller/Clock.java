@@ -5,7 +5,7 @@ import java.util.TimerTask;
 
 
 public class Clock {
-	public static void main(String[] args) throws InterruptedException {
+/*	public static void main(String[] args) throws InterruptedException {
 	Timer tempo;
 	int[] k = new int[]{0,1,1,0,1,1,0,1,0,1};
 for (int i = 0; i<10; i++){
@@ -24,4 +24,4 @@ tempo.schedule(new TimerTask() {
 
     }
 }, 750);
-*/
+*/}

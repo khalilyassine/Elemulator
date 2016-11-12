@@ -1,12 +1,26 @@
 package br.edu.insper.elemulator.model;
 
-public class ProgramCounter extends Register{
+public class ProgramCounter{
 	private int count = 0;
+	private boolean[] register;
+	
+	public ProgramCounter() {
+		this.register = new boolean[16];
+	}
+	
+	public boolean[] getRegister () {
+		return this.register;
+	}
+
+	public void loadRegister(boolean[] register, boolean load) {
+		if (load) {
+			this.register = register;
+		}
+	}
 	
 	public void execute (boolean reset) {
 		if (reset) reset();
 		else {
-			System.out.println("add+1 no program counter");
 			count++;
 			String temp = Integer.toBinaryString(count);
 			for (int i = temp.length()-1; i>=0;i--) {
@@ -17,9 +31,9 @@ public class ProgramCounter extends Register{
 	}
 	
 	private void reset () {
-		for  (int i = 0; i<= register.length; i++) {
+		/*for  (int i = 0; i<= register.length; i++) {
 			register[i] = false;
-		}
+		}*/
 	}
 	
 	public int getCount() {

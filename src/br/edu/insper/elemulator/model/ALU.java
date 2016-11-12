@@ -2,34 +2,33 @@ package br.edu.insper.elemulator.model;
 
 public class ALU {
 	private boolean[] out;
-	private boolean zr = true;;
+	private boolean zr = true;
 	private boolean ng = true;
-	
-	
-	public void execute( boolean[] x, boolean[] y, boolean zx, boolean nx, boolean zy, boolean ny, boolean f, boolean no) {
+
+	public void execute(boolean[] x, boolean[] y, boolean zx, boolean nx, boolean zy, boolean ny, boolean f, boolean no) {
+		
 		if (zx) x = clear(x);
 		if (nx) x = negate(x);
-		if (zy) y = clear(x);
-		if (ny) y = negate(x);
-		
+		if (zy) y = clear(y);
+		if (ny) y = negate(y);
+
 		if (f) {
-			this.out = and(x,y);
+			out = and(x,y);
 		}
+		
 		else {
 			out = adder(x,y);
 		}
 		
 		if (no) {
-			this.out = negate(this.out);
-			
+			out = negate(out);;
 		}
 		
-		compareZr(this.out);
-		compareNg(this.out);
+		compareZr(out);
+		compareNg(out);
 	}
 	
 	private boolean[] clear (boolean[] a) {
-		System.out.println("limpador ativo");
 		for (int i = 0; i<a.length; i++) {
 			a[i] = false;
 		}
@@ -37,15 +36,14 @@ public class ALU {
 	}
 	
 	private boolean[] negate (boolean[] a) {
-		System.out.println("negador ativo");
 		for (int i = 0; i<a.length; i++) {
-			a[i] = true;
+			if (a[i]) a[i] = false;
+			else a[i] = true;
 		}
 		return a;
 	}
 	
 	private boolean[] and (boolean[] x, boolean[] y) {
-		System.out.println("and alu ativo");
 		boolean[] result = new boolean[16];
 		for (int i = 0; i<x.length; i++) {
 			result[i] = x[i] && y[i];
@@ -54,16 +52,26 @@ public class ALU {
 	}
 	
 	private boolean[] adder (boolean[] x, boolean[] y) {
-		System.out.println("adder alu ativo");
 		boolean[] result = new boolean[16];
 		for (int i = 0; i<x.length; i++) {
-			if (x[i] && y[i]) {
+			int count = 0;
+			if (x[i]) count++;
+			if (y[i]) count++;
+			if (result[i]) count++;
+			if (count == 0) result[i] = false;
+			else if (count == 1) result[i] = true;
+			else if (count == 2) {
 				result[i] = false;
-				result[i+1] = true;
+				if(i != 15) {
+					result[i+1] = true;
+				}
 			}
-			else {
-				result[i] = x[i] || y[i];
-			}
+			else if (count == 3) {
+				result[i] = true;
+				if(i != 15) {
+					result[i+1] = true;
+				}
+			}	
 		}
 		return result;	
 	}
@@ -71,7 +79,7 @@ public class ALU {
 	private void compareNg (boolean[] a) {   //todo
 		for  (int i = 0; i<a.length; i++) {
 			if (!a[i]){
-				this.ng = false;
+				ng = false;
 				break;
 			}
 		}
@@ -80,21 +88,21 @@ public class ALU {
 	private void compareZr (boolean[] a) {
 		for  (int i = 0; i<a.length; i++) {
 			if (a[i]){
-				this.zr = true;
+				zr = false;
 				break;
 			}
 		}
 	}
 	
 	public boolean[] getOut () {
-		return this.out;
+		return out;
 	}
 	
 	public boolean getNg() {
-		return this.ng;
+		return ng;
 	}
 	
 	public boolean getZr() {
-		return this.zr;
+		return zr;
 	}
 }

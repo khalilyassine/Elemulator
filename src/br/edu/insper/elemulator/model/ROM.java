@@ -6,9 +6,15 @@ public class ROM {
 		this.rom = new Register[32768];
 	}
 	
-	public void setSelectedInstruction(boolean[] instruction, int index) {
+	public void setSelectedInstruction(String instruction, int index) {
+		boolean[] current_instruction = new boolean[16];
+		for (int j = 0; j<instruction.length();j++) {
+    		if (instruction.charAt(j)=='0') current_instruction[instruction.length()-1-j] = false;
+    		else if (instruction.charAt(j)=='1') current_instruction[instruction.length()-1-j] = true;
+    		}
+		
 		this.rom[index] = new Register();
-		this.rom[index].loadRegister(instruction, true);
+		this.rom[index].loadRegister(current_instruction, true);
 	}
 	
 	public boolean[] getSelectedInstruction(boolean[] index) {
