@@ -1,46 +1,43 @@
 package br.edu.insper.elemulator.model;
 
 public class ALU {
-	private boolean[] out;
+	private boolean[] out, outx, outy;
 	private boolean zr = true;
 	private boolean ng = true;
 
 	public void execute(boolean[] x, boolean[] y, boolean zx, boolean nx, boolean zy, boolean ny, boolean f, boolean no) {
 		
-		if (zx) x = clear(x);
-		if (nx) x = negate(x);
-		if (zy) y = clear(y);
-		if (ny) y = negate(y);
+		outx = x;
+		outy = y;
+		
+		if (zx) outx = clear();
+		if (nx) outx = negate(outx);
+		if (zy) outy = clear();
+		if (ny) outy = negate(outy);
 
-		if (f) {
-			out = and(x,y);
-		}
-		
-		else {
-			out = adder(x,y);
-		}
-		
-		if (no) {
-			out = negate(out);;
-		}
-		
+		if (f) out = and(outx,outy);
+		else out = adder(outx,outy);
+	
+		if (no) out = negate(out);
+
 		compareZr(out);
 		compareNg(out);
 	}
 	
-	private boolean[] clear (boolean[] a) {
-		for (int i = 0; i<a.length; i++) {
-			a[i] = false;
+	private boolean[] clear () {
+		boolean[] result = new boolean[16];
+		for (int j = 0; j<result.length; j++) {
+			result[j] = false;
 		}
-		return a;
+		return result;
 	}
 	
 	private boolean[] negate (boolean[] a) {
-		for (int i = 0; i<a.length; i++) {
-			if (a[i]) a[i] = false;
-			else a[i] = true;
+		boolean[] result = new boolean[16];
+		for (int i = 0; i<result.length; i++) {
+			result[i] = !a[i];
 		}
-		return a;
+		return result;
 	}
 	
 	private boolean[] and (boolean[] x, boolean[] y) {
@@ -76,13 +73,8 @@ public class ALU {
 		return result;	
 	}
 	
-	private void compareNg (boolean[] a) {   //todo
-		for  (int i = 0; i<a.length; i++) {
-			if (!a[i]){
-				ng = false;
-				break;
-			}
-		}
+	private void compareNg (boolean[] a) {
+			if (a[15]) ng = false;
 	}
 	
 	private void compareZr (boolean[] a) {

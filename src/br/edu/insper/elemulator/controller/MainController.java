@@ -19,11 +19,11 @@ public class MainController {
 			rom.setSelectedInstruction(s.next(), current_line);
 			current_line++;
 		}
-		s.close();
+		s.close(); 
 		
 		
 		int commands = 0;
-		while (commands < 6) {
+		while (commands < 20) {
 			//---------------------------------
 			System.out.println("Instrução:");
 			for (int i = 15; i>=0;i--) {
@@ -32,7 +32,6 @@ public class MainController {
 			}
 			System.out.println("");
 			//---------------------------------
-			
 			
 			cpu.execute(ram.getSelectedValue(cpu.getAddressM()), rom.getSelectedInstruction(cpu.getPcOut()), false);
 			ram.setSelectedValue(cpu.getOutM(), cpu.getAddressM(), cpu.isWriteM());

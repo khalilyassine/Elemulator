@@ -18,7 +18,8 @@ public class RAM {
 
 	public void setSelectedValue(boolean[] register, boolean[] index, boolean load) {
 		int decIndex = booleanToInt(index);
-		if (load ){
+		if (load){
+			System.out.println("guardando na memoria na posicao: " + decIndex);
 			if (this.ram[decIndex] == null) this.ram[decIndex] = new Register();
 			this.ram[decIndex].loadRegister(register, load);
 			}
