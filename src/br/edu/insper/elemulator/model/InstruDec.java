@@ -6,7 +6,6 @@ public class InstruDec {
 	private boolean tempA, tempB, tempC, tempD, tempE;
 	
 	public void execute (boolean[] instruction, boolean zr, boolean ng) {
-		
 		muxIOsel = instruction[15];
 		muxAMsel = instruction[12];
 		zx = instruction[11];
@@ -18,15 +17,18 @@ public class InstruDec {
 		loadA = (!instruction[15]) || (instruction[15] && instruction[5]);
 		loadD = instruction[4] && instruction[15];
 		loadM = instruction[3] && instruction[15];
-		
+	}
+	
+	public void executeJump (boolean[] instruction, boolean zr, boolean ng) {
 		tempA = instruction[2] && zr;
 		tempB = instruction[1] && ng;
 		tempC = tempA || tempB;
 		tempD = (!zr) && (!ng);
 		tempE = instruction[0] && tempD;
 		
-		loadPC = (tempC || tempE) && instruction[15];	
+		loadPC = (tempC || tempE) && instruction[15];
 	}
+	
 
 	public boolean isMuxIOsel() {
 		return muxIOsel;

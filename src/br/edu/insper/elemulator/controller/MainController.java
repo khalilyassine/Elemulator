@@ -23,7 +23,8 @@ public class MainController {
 		
 		
 		int commands = 0;
-		while (commands < 20) {
+		while (commands < 100) {
+			
 			//---------------------------------
 			System.out.println("Instrução:");
 			for (int i = 15; i>=0;i--) {

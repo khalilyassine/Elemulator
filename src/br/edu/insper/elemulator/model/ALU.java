@@ -2,10 +2,12 @@ package br.edu.insper.elemulator.model;
 
 public class ALU {
 	private boolean[] out, outx, outy;
-	private boolean zr = true;
-	private boolean ng = true;
+	private boolean zr;
+	private boolean ng;
 
 	public void execute(boolean[] x, boolean[] y, boolean zx, boolean nx, boolean zy, boolean ny, boolean f, boolean no) {
+		zr = true;
+		ng = false;
 		
 		outx = x;
 		outy = y;
@@ -74,7 +76,7 @@ public class ALU {
 	}
 	
 	private void compareNg (boolean[] a) {
-			if (a[15]) ng = false;
+			if (a[15]) ng = true;
 	}
 	
 	private void compareZr (boolean[] a) {

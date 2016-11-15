@@ -57,15 +57,6 @@ public class CPU {
 		this.outM = alu.getOut();
 		
 		//---------------------------------
-		System.out.println("valor do REG-A:");
-		for (int i = 15; i>=0;i--) {
-			if (registerA.getRegister()[i]) System.out.print("1");
-			else System.out.print("0");
-		}
-		System.out.println("");
-		//---------------------------------
-		
-		//---------------------------------
 		System.out.println("na saída da ALU:");
 		for (int i = 15; i>=0;i--) {
 			if (alu.getOut()[i]) System.out.print("1");
@@ -83,6 +74,7 @@ public class CPU {
 		}
 		System.out.println("");
 		//---------------------------------
+		id.executeJump(instruction, alu.getZr(), alu.getNg());
 		
 		pc.execute(registerA.getRegister(), id.isLoadPC(), reset);
 		this.pcOut = pc.getRegister();

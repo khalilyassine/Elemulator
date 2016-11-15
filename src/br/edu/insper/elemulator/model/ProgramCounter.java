@@ -2,8 +2,6 @@ package br.edu.insper.elemulator.model;
 
 public class ProgramCounter extends Register{
 	
-
-	
 	public void execute (boolean[] register, boolean load, boolean reset) {
 		if (reset) reset();
 		else if (load) loadRegister(register, load);
