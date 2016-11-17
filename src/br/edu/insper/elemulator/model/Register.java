@@ -13,7 +13,7 @@ public class Register {
 
 	public void loadRegister(boolean[] register, boolean load) {
 		if (load) {
-			this.register = register;
+			for (int i = 0; i<register.length; i++) this.register[i] = register[i];
 		}
 	}
 }

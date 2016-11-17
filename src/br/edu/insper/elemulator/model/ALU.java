@@ -1,49 +1,50 @@
 package br.edu.insper.elemulator.model;
 
 public class ALU {
-	private boolean[] out;
-	private boolean zr = false;
-	private boolean ng = false;
+	private boolean[] out, outx, outy;
+	private boolean zr;
+	private boolean ng;
+
+	public void execute(boolean[] x, boolean[] y, boolean zx, boolean nx, boolean zy, boolean ny, boolean f, boolean no) {
+		zr = true;
+		ng = false;
+		
+		outx = x;
+		outy = y;
+		
+		if (zx) outx = clear();
+		if (nx) outx = negate(outx);
+		if (zy) outy = clear();
+		if (ny) outy = negate(outy);
+
+		if (f) out = and(outx,outy);
+		else out = adder(outx,outy);
 	
-	
-	public void execute( boolean[] x, boolean[] y, boolean zx, boolean nx, boolean zy, boolean ny, boolean f, boolean no) {
-		if (zx) x = clear(x);
-		if (nx) x = negate(x);
-		if (zy) y = clear(x);
-		if (ny) y = negate(x);
-		
-		if (f) {
-			this.out = and(x,y);
-		}
-		else {
-			this.out = adder(x,y);
-		}
-		
-		if (no) {
-			this.out = negate(this.out);
-		}
-		
-		compareZr(this.out);
-		compareNg(this.out);
+		if (no) out = negate(out);
+
+		compareZr(out);
+		compareNg(out);
 	}
 	
-	private boolean[] clear (boolean[] a) {
-		for (int i = 0; i<=a.length; i++) {
-			a[i] = false;
+	private boolean[] clear () {
+		boolean[] result = new boolean[16];
+		for (int j = 0; j<result.length; j++) {
+			result[j] = false;
 		}
-		return a;
+		return result;
 	}
 	
 	private boolean[] negate (boolean[] a) {
-		for (int i = 0; i<=a.length; i++) {
-			a[i] = true;
+		boolean[] result = new boolean[16];
+		for (int i = 0; i<result.length; i++) {
+			result[i] = !a[i];
 		}
-		return a;
+		return result;
 	}
 	
 	private boolean[] and (boolean[] x, boolean[] y) {
 		boolean[] result = new boolean[16];
-		for (int i = 0; i<=x.length; i++) {
+		for (int i = 0; i<x.length; i++) {
 			result[i] = x[i] && y[i];
 		}
 		return result;	
@@ -51,50 +52,51 @@ public class ALU {
 	
 	private boolean[] adder (boolean[] x, boolean[] y) {
 		boolean[] result = new boolean[16];
-		for (int i = 0; i<=x.length; i++) {
-			if (x[i] && y[i]) {
+		for (int i = 0; i<x.length; i++) {
+			int count = 0;
+			if (x[i]) count++;
+			if (y[i]) count++;
+			if (result[i]) count++;
+			if (count == 0) result[i] = false;
+			else if (count == 1) result[i] = true;
+			else if (count == 2) {
 				result[i] = false;
-				result[i+1] = true;
+				if(i != 15) {
+					result[i+1] = true;
+				}
 			}
-			else {
-				result[i] = x[i] || y[i];
-			}
+			else if (count == 3) {
+				result[i] = true;
+				if(i != 15) {
+					result[i+1] = true;
+				}
+			}	
 		}
 		return result;	
 	}
 	
-	private void compareNg (boolean[] a) {   //todo
-		for  (int i = 0; i<=a.length; i++) {
-			if (a[i] = false){
-				this.ng = false;
+	private void compareNg (boolean[] a) {
+			if (a[15]) ng = true;
+	}
+	
+	private void compareZr (boolean[] a) {
+		for  (int i = 0; i<a.length; i++) {
+			if (a[i]){
+				zr = false;
 				break;
 			}
 		}
 	}
-	
-	private void compareZr (boolean[] a) {   //todo
-		for  (int i = 0; i<=a.length; i++) {
-			if (a[i] = true){
-				this.ng = true;
-				break;
-			}
-		}
-	}
-	
 	
 	public boolean[] getOut () {
-		return this.out;
+		return out;
 	}
 	
 	public boolean getNg() {
-		return this.ng;
+		return ng;
 	}
 	
 	public boolean getZr() {
-		return this.zr;
+		return zr;
 	}
-	
-	
-	
-
 }
